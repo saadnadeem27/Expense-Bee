@@ -173,8 +173,7 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(20),
       ),
 
-      bottomNavigationBarTheme: const BottomNavigationBarTheme(
-        backgroundColor: white,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: primaryBlue,
         unselectedItemColor: softGray,
         elevation: 20,
@@ -258,8 +257,7 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(20),
       ),
 
-      bottomNavigationBarTheme: const BottomNavigationBarTheme(
-        backgroundColor: mediumBlue,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: primaryGold,
         unselectedItemColor: softGray,
         elevation: 20,

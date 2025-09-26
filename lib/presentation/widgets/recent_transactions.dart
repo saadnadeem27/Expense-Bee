@@ -5,10 +5,12 @@ import '../../domain/entities/transaction.dart';
 
 class RecentTransactions extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function(Transaction)? onTransactionTap;
 
   const RecentTransactions({
     super.key,
     required this.transactions,
+    this.onTransactionTap,
   });
 
   @override
@@ -28,7 +30,7 @@ class RecentTransactions extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // TODO: Navigate to all transactions
+                Navigator.of(context).pushNamed('/transactions');
               },
               child: Text(
                 'View All',
@@ -81,9 +83,11 @@ class RecentTransactions extends StatelessWidget {
     final iconData = _getCategoryIcon(transaction.category);
     final categoryColor = _getCategoryColor(transaction.category);
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Row(
+    return GestureDetector(
+      onTap: onTransactionTap != null ? () => onTransactionTap!(transaction) : null,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Row(
         children: [
           // Category Icon
           Container(
@@ -149,6 +153,7 @@ class RecentTransactions extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 

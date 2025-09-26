@@ -115,7 +115,6 @@ class SpendingInsights extends StatelessWidget {
   }
 
   Widget _buildLegend(Map<String, double> categoryData) {
-    final total = categoryData.values.fold(0.0, (sum, amount) => sum + amount);
     final colors = [
       AppTheme.primaryBlue,
       AppTheme.primaryGold,
@@ -132,7 +131,6 @@ class SpendingInsights extends StatelessWidget {
     int colorIndex = 0;
     return Column(
       children: categoryData.entries.map((entry) {
-        final percentage = (entry.value / total) * 100;
         final color = colors[colorIndex % colors.length];
         colorIndex++;
         
@@ -184,7 +182,7 @@ class SpendingInsights extends StatelessWidget {
               borderRadius: BorderRadius.circular(40),
             ),
             child: Icon(
-              Icons.pie_chart_outlined,
+              Icons.pie_chart,
               size: 40,
               color: AppTheme.softGray,
             ),

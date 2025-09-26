@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import '../screens/add_transaction/add_transaction_screen.dart';
 
 class QuickActions extends StatelessWidget {
   const QuickActions({super.key});
@@ -25,7 +26,11 @@ class QuickActions extends StatelessWidget {
                 label: 'Add Expense',
                 gradient: AppTheme.pinkGradient,
                 onTap: () {
-                  // TODO: Navigate to add expense
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const AddTransactionScreen(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -36,7 +41,11 @@ class QuickActions extends StatelessWidget {
                 label: 'Add Income',
                 gradient: AppTheme.tealGradient,
                 onTap: () {
-                  // TODO: Navigate to add income
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const AddTransactionScreen(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -52,6 +61,11 @@ class QuickActions extends StatelessWidget {
                 gradient: AppTheme.goldGradient,
                 onTap: () {
                   // TODO: Open camera for receipt scanning
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Receipt scanning coming soon!'),
+                    ),
+                  );
                 },
               ),
             ),
@@ -63,6 +77,11 @@ class QuickActions extends StatelessWidget {
                 gradient: AppTheme.blueGradient,
                 onTap: () {
                   // TODO: Navigate to budget management
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Budget management coming soon!'),
+                    ),
+                  );
                 },
               ),
             ),

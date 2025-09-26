@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../domain/entities/transaction.dart';
-import '../../bloc/transaction/transaction_bloc.dart';
-import '../../widgets/premium_card.dart';
+import '../../bloc/transaction/transaction_bloc_simple.dart';
 import '../../widgets/balance_card.dart';
 import '../../widgets/quick_actions.dart';
 import '../../widgets/recent_transactions.dart';
 import '../../widgets/spending_insights.dart';
+import '../add_transaction/add_transaction_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -77,20 +75,25 @@ class _DashboardContent extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           _getGreeting(),
-                          style: AppTheme.bodyLarge.copyWith(
+                          style: AppTheme.bodyMedium.copyWith(
                             color: AppTheme.softGray,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         Text(
                           'John Doe',
-                          style: AppTheme.headingMedium.copyWith(
+                          style: AppTheme.headingSmall.copyWith(
                             color: AppTheme.darkBlue,
                             fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -155,6 +158,15 @@ class _DashboardContent extends StatelessWidget {
                     // Recent Transactions
                     RecentTransactions(
                       transactions: state.filteredTransactions.take(5).toList(),
+                      onTransactionTap: (transaction) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddTransactionScreen(
+                              transaction: transaction,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     
                     const SizedBox(height: 100), // Bottom padding for nav bar
