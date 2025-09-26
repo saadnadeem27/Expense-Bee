@@ -169,9 +169,11 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d*\.?\d{0,2}')),
                   ],
                   decoration: InputDecoration(
                     hintText: '0.00',
@@ -245,10 +247,12 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
                   });
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
                     gradient: isSelected ? AppTheme.primaryGradient : null,
-                    color: isSelected ? null : AppTheme.lightGray.withOpacity(0.3),
+                    color:
+                        isSelected ? null : AppTheme.lightGray.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(12),
                     border: isSelected
                         ? null
@@ -270,8 +274,11 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
                         child: Text(
                           category,
                           style: AppTheme.bodySmall.copyWith(
-                            color: isSelected ? Colors.white : AppTheme.darkBlue,
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                            color:
+                                isSelected ? Colors.white : AppTheme.darkBlue,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.normal,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -336,7 +343,8 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
     );
   }
 
-  Widget _buildDateField(String label, DateTime date, Function(DateTime) onChanged) {
+  Widget _buildDateField(
+      String label, DateTime date, Function(DateTime) onChanged) {
     return GestureDetector(
       onTap: () async {
         final selectedDate = await showDatePicker(
@@ -449,7 +457,7 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
     }
 
     final amount = double.parse(_amountController.text);
-    
+
     // Create budget object and pass back to parent
     final budget = Budget(
       category: _selectedCategory,
@@ -459,13 +467,13 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
     );
 
     Navigator.of(context).pop(budget);
-    
+
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          widget.budget != null 
-              ? 'Budget updated successfully!' 
+          widget.budget != null
+              ? 'Budget updated successfully!'
               : 'Budget created successfully!',
         ),
         backgroundColor: AppTheme.success,

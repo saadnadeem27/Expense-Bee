@@ -178,7 +178,8 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -234,9 +235,11 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                     color: AppTheme.darkBlue,
                     fontWeight: FontWeight.bold,
                   ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d*\.?\d{0,2}')),
                   ],
                   decoration: InputDecoration(
                     hintText: '0.00',
@@ -249,7 +252,8 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -291,9 +295,11 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                     color: AppTheme.darkBlue,
                     fontWeight: FontWeight.w600,
                   ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d*\.?\d{0,2}')),
                   ],
                   decoration: InputDecoration(
                     hintText: '0.00',
@@ -306,7 +312,8 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                   ),
                 ),
               ),
@@ -364,7 +371,8 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: isSelected ? AppTheme.tealGradient : null,
-                    color: isSelected ? null : AppTheme.lightGray.withOpacity(0.3),
+                    color:
+                        isSelected ? null : AppTheme.lightGray.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(12),
                     border: isSelected
                         ? null
@@ -519,10 +527,10 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     }
 
     final targetAmount = double.parse(_targetAmountController.text);
-    final currentAmount = _currentAmountController.text.isEmpty 
-        ? 0.0 
+    final currentAmount = _currentAmountController.text.isEmpty
+        ? 0.0
         : double.parse(_currentAmountController.text);
-    
+
     // Create goal object and pass back to parent
     final goal = Goal(
       title: _titleController.text,
@@ -534,13 +542,13 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     );
 
     Navigator.of(context).pop(goal);
-    
+
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          widget.goal != null 
-              ? 'Goal updated successfully!' 
+          widget.goal != null
+              ? 'Goal updated successfully!'
               : 'Goal created successfully!',
         ),
         backgroundColor: AppTheme.success,

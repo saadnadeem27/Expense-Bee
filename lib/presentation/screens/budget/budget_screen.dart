@@ -409,10 +409,9 @@ class _BudgetContent extends StatelessWidget {
               Text(
                 'Monthly Budget',
                 style: AppTheme.headingMedium.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 21
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 21),
               ),
               Container(
                 padding:

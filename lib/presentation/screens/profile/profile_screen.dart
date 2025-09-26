@@ -14,8 +14,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _darkMode = false;
   bool _notificationsEnabled = true;
   bool _biometricEnabled = false;
-  String _currency = 'USD';
-  String _language = 'English';
+  final String _currency = 'USD';
+  final String _language = 'English';
   String _userName = 'John Doe';
   String _userEmail = 'john.doe@example.com';
   String _userPhone = '';
