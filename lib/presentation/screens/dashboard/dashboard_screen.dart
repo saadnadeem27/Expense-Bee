@@ -32,15 +32,15 @@ class DashboardScreen extends StatelessWidget {
               if (state is TransactionLoading) {
                 return const _LoadingWidget();
               }
-              
+
               if (state is TransactionError) {
                 return _ErrorWidget(message: state.message);
               }
-              
+
               if (state is TransactionLoaded) {
                 return _DashboardContent(state: state);
               }
-              
+
               return const SizedBox.shrink();
             },
           ),
@@ -52,7 +52,7 @@ class DashboardScreen extends StatelessWidget {
 
 class _DashboardContent extends StatelessWidget {
   final TransactionLoaded state;
-  
+
   const _DashboardContent({required this.state});
 
   @override
@@ -62,7 +62,7 @@ class _DashboardContent extends StatelessWidget {
       slivers: [
         // App Bar
         SliverAppBar(
-          expandedHeight: 120,
+          expandedHeight: 135,
           floating: true,
           pinned: true,
           backgroundColor: Colors.transparent,
@@ -122,7 +122,7 @@ class _DashboardContent extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Content
         SliverToBoxAdapter(
           child: Padding(
@@ -142,19 +142,19 @@ class _DashboardContent extends StatelessWidget {
                       totalExpense: state.totalExpense,
                       balance: state.balance,
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Quick Actions
                     const QuickActions(),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Spending Insights
                     SpendingInsights(transactions: state.transactions),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Recent Transactions
                     RecentTransactions(
                       transactions: state.filteredTransactions.take(5).toList(),
@@ -168,7 +168,7 @@ class _DashboardContent extends StatelessWidget {
                         );
                       },
                     ),
-                    
+
                     const SizedBox(height: 100), // Bottom padding for nav bar
                   ],
                 ),
@@ -179,7 +179,7 @@ class _DashboardContent extends StatelessWidget {
       ],
     );
   }
-  
+
   String _getGreeting() {
     final hour = DateTime.now().hour;
     if (hour < 12) {
@@ -205,7 +205,7 @@ class _LoadingWidget extends StatelessWidget {
 
 class _ErrorWidget extends StatelessWidget {
   final String message;
-  
+
   const _ErrorWidget({required this.message});
 
   @override

@@ -66,7 +66,9 @@ class CategorySelector extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+                    color: isSelected
+                        ? color.withOpacity(0.1)
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: isSelected ? color : AppTheme.lightGray,
@@ -94,7 +96,8 @@ class CategorySelector extends StatelessWidget {
                           category,
                           style: AppTheme.bodySmall.copyWith(
                             color: isSelected ? color : AppTheme.darkBlue,
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                            fontWeight:
+                                isSelected ? FontWeight.w600 : FontWeight.w500,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

@@ -61,15 +61,15 @@ class _TransactionsScreenState extends State<TransactionsScreen>
                     if (state is TransactionLoading) {
                       return const _LoadingWidget();
                     }
-                    
+
                     if (state is TransactionError) {
                       return _ErrorWidget(message: state.message);
                     }
-                    
+
                     if (state is TransactionLoaded) {
                       return _buildTabContent(state);
                     }
-                    
+
                     return const SizedBox.shrink();
                   },
                 ),
@@ -231,7 +231,7 @@ class _TransactionsScreenState extends State<TransactionsScreen>
 
   Widget _buildSummaryCards(TransactionLoaded state) {
     final currencyFormat = NumberFormat.currency(symbol: '\$');
-    
+
     return Row(
       children: [
         Expanded(
@@ -408,7 +408,7 @@ class _TransactionsScreenState extends State<TransactionsScreen>
           final dateKey = sortedKeys[index];
           final dayTransactions = groupedTransactions[dateKey]!;
           final date = DateTime.parse(dateKey);
-          
+
           return AnimationConfiguration.staggeredList(
             position: index,
             duration: const Duration(milliseconds: 375),
@@ -450,7 +450,7 @@ class _TransactionsScreenState extends State<TransactionsScreen>
     final dayTotal = transactions.fold(0.0, (sum, t) {
       return sum + (t.type == TransactionType.income ? t.amount : -t.amount);
     });
-    
+
     final currencyFormat = NumberFormat.currency(symbol: '\$');
     final dateFormat = DateFormat('EEEE, MMMM dd');
 
@@ -549,7 +549,7 @@ class _LoadingWidget extends StatelessWidget {
 
 class _ErrorWidget extends StatelessWidget {
   final String message;
-  
+
   const _ErrorWidget({required this.message});
 
   @override

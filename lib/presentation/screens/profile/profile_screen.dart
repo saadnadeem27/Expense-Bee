@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../../core/theme/app_theme.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,6 +16,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _biometricEnabled = false;
   String _currency = 'USD';
   String _language = 'English';
+  String _userName = 'John Doe';
+  String _userEmail = 'john.doe@example.com';
+  String _userPhone = '';
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +145,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -148,6 +154,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: AppTheme.bodyMedium.copyWith(
                           color: Colors.white.withOpacity(0.8),
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -227,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'John Doe',
+            _userName,
             style: AppTheme.headingMedium.copyWith(
               color: AppTheme.darkBlue,
               fontWeight: FontWeight.bold,
@@ -235,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'john.doe@example.com',
+            _userEmail,
             style: AppTheme.bodyMedium.copyWith(
               color: AppTheme.softGray,
             ),
@@ -307,7 +315,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -704,15 +713,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _showEditProfileDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => _buildDialog(
-        'Edit Profile',
-        'Profile editing feature will be available soon!',
-        'OK',
+  void _editProfile() async {
+    final result = await Navigator.push<Map<String, String>>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfileScreen(
+          currentName: _userName,
+          currentEmail: _userEmail,
+        ),
       ),
     );
+
+    if (result != null) {
+      setState(() {
+        _userName = result['name'] ?? _userName;
+        _userEmail = result['email'] ?? _userEmail;
+        _userPhone = result['phone'] ?? _userPhone;
+      });
+    }
+  }
+
+  void _showEditProfileDialog() {
+    _editProfile();
   }
 
   void _showCurrencyDialog() {

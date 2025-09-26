@@ -55,9 +55,9 @@ class SpendingInsights extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Legend
                     _buildLegend(categoryData),
                   ],
@@ -69,18 +69,19 @@ class SpendingInsights extends StatelessWidget {
 
   Map<String, double> _getCategoryData() {
     final categoryTotals = <String, double>{};
-    
+
     for (final transaction in transactions) {
       if (transaction.type == TransactionType.expense) {
         categoryTotals[transaction.category] =
             (categoryTotals[transaction.category] ?? 0) + transaction.amount;
       }
     }
-    
+
     return categoryTotals;
   }
 
-  List<PieChartSectionData> _buildPieSections(Map<String, double> categoryData) {
+  List<PieChartSectionData> _buildPieSections(
+      Map<String, double> categoryData) {
     final total = categoryData.values.fold(0.0, (sum, amount) => sum + amount);
     final colors = [
       AppTheme.primaryBlue,
@@ -94,13 +95,13 @@ class SpendingInsights extends StatelessWidget {
       const Color(0xFFEF4444),
       const Color(0xFFF59E0B),
     ];
-    
+
     int colorIndex = 0;
     return categoryData.entries.map((entry) {
       final percentage = (entry.value / total) * 100;
       final color = colors[colorIndex % colors.length];
       colorIndex++;
-      
+
       return PieChartSectionData(
         color: color,
         value: entry.value,
@@ -127,13 +128,13 @@ class SpendingInsights extends StatelessWidget {
       const Color(0xFFEF4444),
       const Color(0xFFF59E0B),
     ];
-    
+
     int colorIndex = 0;
     return Column(
       children: categoryData.entries.map((entry) {
         final color = colors[colorIndex % colors.length];
         colorIndex++;
-        
+
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(

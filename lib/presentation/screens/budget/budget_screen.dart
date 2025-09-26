@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/entities/transaction.dart';
 import '../../bloc/transaction/transaction_bloc_simple.dart';
+import 'add_budget_screen.dart';
+import 'add_goal_screen.dart';
 
 class BudgetScreen extends StatefulWidget {
   const BudgetScreen({super.key});
@@ -16,11 +18,56 @@ class BudgetScreen extends StatefulWidget {
 class _BudgetScreenState extends State<BudgetScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<Budget> _budgets = [];
+  List<Goal> _goals = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _loadMockData();
+  }
+
+  void _loadMockData() {
+    _budgets = [
+      Budget(
+        category: 'Food & Dining',
+        amount: 800,
+        icon: Icons.restaurant,
+        color: const Color(0xFFFF6B6B),
+      ),
+      Budget(
+        category: 'Shopping',
+        amount: 500,
+        icon: Icons.shopping_bag,
+        color: const Color(0xFF4ECDC4),
+      ),
+      Budget(
+        category: 'Transportation',
+        amount: 300,
+        icon: Icons.directions_car,
+        color: const Color(0xFF45B7D1),
+      ),
+    ];
+
+    _goals = [
+      Goal(
+        title: 'Emergency Fund',
+        targetAmount: 10000,
+        currentAmount: 6500,
+        deadline: DateTime.now().add(const Duration(days: 365)),
+        icon: Icons.security,
+        color: const Color(0xFF4CAF50),
+      ),
+      Goal(
+        title: 'Vacation Trip',
+        targetAmount: 3000,
+        currentAmount: 1800,
+        deadline: DateTime.now().add(const Duration(days: 180)),
+        icon: Icons.flight,
+        color: const Color(0xFF2196F3),
+      ),
+    ];
   }
 
   @override
@@ -39,18 +86,30 @@ class _BudgetScreenState extends State<BudgetScreen>
             if (state is TransactionLoading) {
               return const _LoadingWidget();
             }
-            
+
             if (state is TransactionError) {
               return _ErrorWidget(message: state.message);
             }
-            
+
             if (state is TransactionLoaded) {
               return _BudgetContent(
                 state: state,
                 tabController: _tabController,
+                budgets: _budgets,
+                goals: _goals,
+                onBudgetAdded: (budget) {
+                  setState(() {
+                    _budgets.add(budget);
+                  });
+                },
+                onGoalAdded: (goal) {
+                  setState(() {
+                    _goals.add(goal);
+                  });
+                },
               );
             }
-            
+
             return const SizedBox.shrink();
           },
         ),
@@ -62,10 +121,18 @@ class _BudgetScreenState extends State<BudgetScreen>
 class _BudgetContent extends StatelessWidget {
   final TransactionLoaded state;
   final TabController tabController;
+  final List<Budget> budgets;
+  final List<Goal> goals;
+  final Function(Budget) onBudgetAdded;
+  final Function(Goal) onGoalAdded;
 
   const _BudgetContent({
     required this.state,
     required this.tabController,
+    required this.budgets,
+    required this.goals,
+    required this.onBudgetAdded,
+    required this.onGoalAdded,
   });
 
   @override
@@ -93,7 +160,7 @@ class _BudgetContent extends StatelessWidget {
 
   Widget _buildAppBar(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 120,
+      expandedHeight: 145,
       floating: false,
       pinned: true,
       backgroundColor: Colors.transparent,
@@ -124,7 +191,7 @@ class _BudgetContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 20),
           child: IconButton(
-            onPressed: () => _showAddBudgetDialog(context),
+            onPressed: () => _navigateToAddBudget(context),
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -168,6 +235,8 @@ class _BudgetContent extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -175,6 +244,8 @@ class _BudgetContent extends StatelessWidget {
                         style: AppTheme.bodyMedium.copyWith(
                           color: Colors.white.withOpacity(0.8),
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -226,8 +297,6 @@ class _BudgetContent extends StatelessWidget {
   }
 
   Widget _buildBudgetsTab(BuildContext context) {
-    final budgets = _getMockBudgets();
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: AnimationLimiter(
@@ -242,9 +311,9 @@ class _BudgetContent extends StatelessWidget {
             children: [
               // Monthly Overview
               _buildMonthlyOverview(),
-              
+
               const SizedBox(height: 24),
-              
+
               // Budget Categories
               Text(
                 'Budget Categories',
@@ -254,14 +323,14 @@ class _BudgetContent extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               ...budgets.map((budget) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: _buildBudgetCard(budget),
-              )),
-              
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: _buildBudgetCard(budget),
+                  )),
+
               const SizedBox(height: 24),
-              
+
               // Quick Actions
               _buildQuickActions(context),
             ],
@@ -272,8 +341,6 @@ class _BudgetContent extends StatelessWidget {
   }
 
   Widget _buildGoalsTab(BuildContext context) {
-    final goals = _getMockGoals();
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: AnimationLimiter(
@@ -288,9 +355,9 @@ class _BudgetContent extends StatelessWidget {
             children: [
               // Goals Overview
               _buildGoalsOverview(),
-              
+
               const SizedBox(height: 24),
-              
+
               // Active Goals
               Text(
                 'Active Goals',
@@ -300,12 +367,12 @@ class _BudgetContent extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               ...goals.map((goal) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: _buildGoalCard(goal),
-              )),
-              
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: _buildGoalCard(goal),
+                  )),
+
               const SizedBox(height: 80), // Bottom padding for tab bar
             ],
           ),
@@ -344,10 +411,12 @@ class _BudgetContent extends StatelessWidget {
                 style: AppTheme.headingMedium.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: 21
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(20),
@@ -362,9 +431,9 @@ class _BudgetContent extends StatelessWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 20),
-          
+
           // Progress Bar
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
@@ -377,9 +446,9 @@ class _BudgetContent extends StatelessWidget {
               minHeight: 8,
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -472,12 +541,16 @@ class _BudgetContent extends StatelessWidget {
                         color: AppTheme.darkBlue,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       'Budget: \$${NumberFormat('#,##0.00').format(budget.amount)}',
                       style: AppTheme.bodySmall.copyWith(
                         color: AppTheme.softGray,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -491,20 +564,25 @@ class _BudgetContent extends StatelessWidget {
                       color: AppTheme.darkBlue,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     '${(percentage * 100).toStringAsFixed(0)}% used',
                     style: AppTheme.bodySmall.copyWith(
-                      color: percentage > 0.9 ? AppTheme.error : AppTheme.softGray,
+                      color:
+                          percentage > 0.9 ? AppTheme.error : AppTheme.softGray,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ],
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Progress Bar
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
@@ -512,22 +590,29 @@ class _BudgetContent extends StatelessWidget {
               value: percentage.clamp(0.0, 1.0),
               backgroundColor: AppTheme.lightGray.withOpacity(0.5),
               valueColor: AlwaysStoppedAnimation<Color>(
-                percentage > 0.9 ? AppTheme.error : 
-                percentage > 0.7 ? AppTheme.warning : AppTheme.success,
+                percentage > 0.9
+                    ? AppTheme.error
+                    : percentage > 0.7
+                        ? AppTheme.warning
+                        : AppTheme.success,
               ),
               minHeight: 6,
             ),
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                remaining >= 0 ? 'Remaining' : 'Overspent',
-                style: AppTheme.bodySmall.copyWith(
-                  color: AppTheme.softGray,
+              Expanded(
+                child: Text(
+                  remaining >= 0 ? 'Remaining' : 'Overspent',
+                  style: AppTheme.bodySmall.copyWith(
+                    color: AppTheme.softGray,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               Text(
@@ -536,6 +621,8 @@ class _BudgetContent extends StatelessWidget {
                   color: remaining >= 0 ? AppTheme.success : AppTheme.error,
                   fontWeight: FontWeight.w600,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -568,9 +655,7 @@ class _BudgetContent extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          
           const SizedBox(height: 20),
-          
           Row(
             children: [
               Expanded(
@@ -664,12 +749,16 @@ class _BudgetContent extends StatelessWidget {
                         color: AppTheme.darkBlue,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       'Target: \$${NumberFormat('#,##0.00').format(goal.targetAmount)}',
                       style: AppTheme.bodySmall.copyWith(
                         color: AppTheme.softGray,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -683,20 +772,24 @@ class _BudgetContent extends StatelessWidget {
                       color: AppTheme.darkBlue,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     DateFormat('MMM yyyy').format(goal.deadline),
                     style: AppTheme.bodySmall.copyWith(
                       color: AppTheme.softGray,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ],
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Progress Bar
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
@@ -707,22 +800,32 @@ class _BudgetContent extends StatelessWidget {
               minHeight: 8,
             ),
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Saved: \$${NumberFormat('#,##0.00').format(goal.currentAmount)}',
-                style: AppTheme.bodySmall.copyWith(
-                  color: AppTheme.softGray,
+              Expanded(
+                child: Text(
+                  'Saved: \$${NumberFormat('#,##0.00').format(goal.currentAmount)}',
+                  style: AppTheme.bodySmall.copyWith(
+                    color: AppTheme.softGray,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                'Remaining: \$${NumberFormat('#,##0.00').format(goal.targetAmount - goal.currentAmount)}',
-                style: AppTheme.bodySmall.copyWith(
-                  color: AppTheme.softGray,
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Remaining: \$${NumberFormat('#,##0.00').format(goal.targetAmount - goal.currentAmount)}',
+                  style: AppTheme.bodySmall.copyWith(
+                    color: AppTheme.softGray,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
                 ),
               ),
             ],
@@ -751,7 +854,7 @@ class _BudgetContent extends StatelessWidget {
                 'Create Budget',
                 Icons.account_balance_wallet,
                 AppTheme.primaryBlue,
-                () => _showAddBudgetDialog(context),
+                () => _navigateToAddBudget(context),
               ),
             ),
             const SizedBox(width: 12),
@@ -760,7 +863,7 @@ class _BudgetContent extends StatelessWidget {
                 'Set Goal',
                 Icons.flag,
                 AppTheme.success,
-                () => _showAddGoalDialog(context),
+                () => _navigateToAddGoal(context),
               ),
             ),
           ],
@@ -769,7 +872,8 @@ class _BudgetContent extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard(String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildActionCard(
+      String title, IconData icon, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -822,7 +926,7 @@ class _BudgetContent extends StatelessWidget {
     final monthStart = DateTime(now.year, now.month, 1);
 
     return state.transactions
-        .where((t) => 
+        .where((t) =>
             t.type == TransactionType.expense &&
             t.date.isAfter(monthStart.subtract(const Duration(days: 1))))
         .fold(0.0, (sum, t) => sum + t.amount);
@@ -830,179 +934,35 @@ class _BudgetContent extends StatelessWidget {
 
   double _getCategoryExpense(String category) {
     return state.transactions
-        .where((t) => 
+        .where((t) =>
             t.type == TransactionType.expense &&
             t.category.toLowerCase() == category.toLowerCase())
         .fold(0.0, (sum, t) => sum + t.amount);
   }
 
-  List<Budget> _getMockBudgets() {
-    return [
-      Budget(
-        category: 'Food & Dining',
-        amount: 800,
-        icon: Icons.restaurant,
-        color: const Color(0xFFFF6B6B),
-      ),
-      Budget(
-        category: 'Shopping',
-        amount: 500,
-        icon: Icons.shopping_bag,
-        color: const Color(0xFF4ECDC4),
-      ),
-      Budget(
-        category: 'Transportation',
-        amount: 300,
-        icon: Icons.directions_car,
-        color: const Color(0xFF45B7D1),
-      ),
-      Budget(
-        category: 'Entertainment',
-        amount: 200,
-        icon: Icons.movie,
-        color: const Color(0xFF96CEB4),
-      ),
-      Budget(
-        category: 'Bills & Utilities',
-        amount: 600,
-        icon: Icons.receipt,
-        color: const Color(0xFFFFA07A),
-      ),
-    ];
-  }
-
-  List<Goal> _getMockGoals() {
-    return [
-      Goal(
-        title: 'Emergency Fund',
-        targetAmount: 10000,
-        currentAmount: 6500,
-        deadline: DateTime.now().add(const Duration(days: 365)),
-        icon: Icons.security,
-        color: const Color(0xFF4CAF50),
-      ),
-      Goal(
-        title: 'Vacation Trip',
-        targetAmount: 3000,
-        currentAmount: 1800,
-        deadline: DateTime.now().add(const Duration(days: 180)),
-        icon: Icons.flight,
-        color: const Color(0xFF2196F3),
-      ),
-      Goal(
-        title: 'New Laptop',
-        targetAmount: 2500,
-        currentAmount: 1200,
-        deadline: DateTime.now().add(const Duration(days: 120)),
-        icon: Icons.laptop,
-        color: const Color(0xFF9C27B0),
-      ),
-    ];
-  }
-
-  void _showAddBudgetDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          'Create Budget',
-          style: AppTheme.headingMedium.copyWith(
-            color: AppTheme.darkBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          'Budget creation feature will be available soon!',
-          style: AppTheme.bodyMedium.copyWith(
-            color: AppTheme.softGray,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              'OK',
-              style: AppTheme.bodyMedium.copyWith(
-                color: AppTheme.primaryBlue,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
+  void _navigateToAddBudget(BuildContext context) async {
+    final budget = await Navigator.of(context).push<Budget>(
+      MaterialPageRoute(
+        builder: (context) => const AddBudgetScreen(),
       ),
     );
+
+    if (budget != null) {
+      onBudgetAdded(budget);
+    }
   }
 
-  void _showAddGoalDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          'Set Goal',
-          style: AppTheme.headingMedium.copyWith(
-            color: AppTheme.darkBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          'Goal setting feature will be available soon!',
-          style: AppTheme.bodyMedium.copyWith(
-            color: AppTheme.softGray,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              'OK',
-              style: AppTheme.bodyMedium.copyWith(
-                color: AppTheme.primaryBlue,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
+  void _navigateToAddGoal(BuildContext context) async {
+    final goal = await Navigator.of(context).push<Goal>(
+      MaterialPageRoute(
+        builder: (context) => const AddGoalScreen(),
       ),
     );
+
+    if (goal != null) {
+      onGoalAdded(goal);
+    }
   }
-}
-
-class Budget {
-  final String category;
-  final double amount;
-  final IconData icon;
-  final Color color;
-
-  Budget({
-    required this.category,
-    required this.amount,
-    required this.icon,
-    required this.color,
-  });
-}
-
-class Goal {
-  final String title;
-  final double targetAmount;
-  final double currentAmount;
-  final DateTime deadline;
-  final IconData icon;
-  final Color color;
-
-  Goal({
-    required this.title,
-    required this.targetAmount,
-    required this.currentAmount,
-    required this.deadline,
-    required this.icon,
-    required this.color,
-  });
 }
 
 class _LoadingWidget extends StatelessWidget {
@@ -1046,7 +1006,7 @@ class _LoadingWidget extends StatelessWidget {
 
 class _ErrorWidget extends StatelessWidget {
   final String message;
-  
+
   const _ErrorWidget({required this.message});
 
   @override
@@ -1103,7 +1063,8 @@ class _ErrorWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryBlue,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

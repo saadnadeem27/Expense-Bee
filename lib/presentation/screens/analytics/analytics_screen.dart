@@ -17,7 +17,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String selectedPeriod = 'This Month';
-  final List<String> periods = ['This Week', 'This Month', 'Last 3 Months', 'This Year'];
+  final List<String> periods = [
+    'This Week',
+    'This Month',
+    'Last 3 Months',
+    'This Year'
+  ];
 
   @override
   void initState() {
@@ -41,11 +46,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             if (state is TransactionLoading) {
               return const _LoadingWidget();
             }
-            
+
             if (state is TransactionError) {
               return _ErrorWidget(message: state.message);
             }
-            
+
             if (state is TransactionLoaded) {
               return _AnalyticsContent(
                 state: state,
@@ -59,7 +64,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                 },
               );
             }
-            
+
             return const SizedBox.shrink();
           },
         ),
@@ -109,7 +114,7 @@ class _AnalyticsContent extends StatelessWidget {
 
   Widget _buildAppBar(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 120,
+      expandedHeight: 145,
       floating: false,
       pinned: true,
       backgroundColor: Colors.transparent,
@@ -164,6 +169,8 @@ class _AnalyticsContent extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -171,6 +178,8 @@ class _AnalyticsContent extends StatelessWidget {
                         style: AppTheme.bodyMedium.copyWith(
                           color: Colors.white.withOpacity(0.8),
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -271,7 +280,9 @@ class _AnalyticsContent extends StatelessWidget {
     final totalIncome = state.totalIncome;
     final totalExpense = state.totalExpense;
     final balance = state.balance;
-    final savingsRate = totalIncome > 0 ? ((totalIncome - totalExpense) / totalIncome) * 100 : 0;
+    final savingsRate = totalIncome > 0
+        ? ((totalIncome - totalExpense) / totalIncome) * 100
+        : 0;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -300,9 +311,9 @@ class _AnalyticsContent extends StatelessWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           Row(
             children: [
               Expanded(
@@ -318,8 +329,11 @@ class _AnalyticsContent extends StatelessWidget {
                 child: _buildSummaryCard(
                   'Savings Rate',
                   '${savingsRate.toStringAsFixed(1)}%',
-                  savingsRate > 20 ? AppTheme.success : 
-                  savingsRate > 10 ? AppTheme.warning : AppTheme.error,
+                  savingsRate > 20
+                      ? AppTheme.success
+                      : savingsRate > 10
+                          ? AppTheme.warning
+                          : AppTheme.error,
                   Icons.savings,
                 ),
               ),
@@ -344,10 +358,10 @@ class _AnalyticsContent extends StatelessWidget {
     final expenseTransactions = state.transactions
         .where((t) => t.type == TransactionType.expense)
         .toList();
-    
+
     final categoryExpenses = <String, double>{};
     for (final transaction in expenseTransactions) {
-      categoryExpenses[transaction.category] = 
+      categoryExpenses[transaction.category] =
           (categoryExpenses[transaction.category] ?? 0) + transaction.amount;
     }
 
@@ -375,7 +389,9 @@ class _AnalyticsContent extends StatelessWidget {
           const SizedBox(height: 16),
 
           ...sortedCategories.take(10).map((entry) {
-            final percentage = state.totalExpense > 0 ? (entry.value / state.totalExpense) * 100 : 0.0;
+            final percentage = state.totalExpense > 0
+                ? (entry.value / state.totalExpense) * 100
+                : 0.0;
             return _buildCategoryItem(
               entry.key,
               entry.value,
@@ -410,7 +426,8 @@ class _AnalyticsContent extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryCard(String title, String value, Color color, IconData icon) {
+  Widget _buildSummaryCard(
+      String title, String value, Color color, IconData icon) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -499,7 +516,9 @@ class _AnalyticsContent extends StatelessWidget {
             child: BarChart(
               BarChartData(
                 alignment: BarChartAlignment.spaceAround,
-                maxY: [state.totalIncome, state.totalExpense].reduce((a, b) => a > b ? a : b) * 1.2,
+                maxY: [state.totalIncome, state.totalExpense]
+                        .reduce((a, b) => a > b ? a : b) *
+                    1.2,
                 barTouchData: BarTouchData(enabled: false),
                 titlesData: FlTitlesData(
                   show: true,
@@ -585,10 +604,10 @@ class _AnalyticsContent extends StatelessWidget {
     final expenseTransactions = state.transactions
         .where((t) => t.type == TransactionType.expense)
         .toList();
-    
+
     final categoryExpenses = <String, double>{};
     for (final transaction in expenseTransactions) {
-      categoryExpenses[transaction.category] = 
+      categoryExpenses[transaction.category] =
           (categoryExpenses[transaction.category] ?? 0) + transaction.amount;
     }
 
@@ -620,7 +639,9 @@ class _AnalyticsContent extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ...sortedCategories.take(5).map((entry) {
-            final percentage = state.totalExpense > 0 ? (entry.value / state.totalExpense) * 100 : 0;
+            final percentage = state.totalExpense > 0
+                ? (entry.value / state.totalExpense) * 100
+                : 0;
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(
@@ -825,7 +846,7 @@ class _AnalyticsContent extends StatelessWidget {
     // Group transactions by week
     final weeklyExpenses = <DateTime, double>{};
     final now = DateTime.now();
-    
+
     for (int i = 6; i >= 0; i--) {
       final weekStart = now.subtract(Duration(days: now.weekday - 1 + (i * 7)));
       weeklyExpenses[weekStart] = 0;
@@ -836,7 +857,7 @@ class _AnalyticsContent extends StatelessWidget {
         final weekStart = transaction.date.subtract(
           Duration(days: transaction.date.weekday - 1),
         );
-        
+
         for (final week in weeklyExpenses.keys) {
           if (weekStart.isAtSameMomentAs(week)) {
             weeklyExpenses[week] = weeklyExpenses[week]! + transaction.amount;
@@ -884,7 +905,8 @@ class _AnalyticsContent extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        if (value.toInt() >= 0 && value.toInt() < sortedWeeks.length) {
+                        if (value.toInt() >= 0 &&
+                            value.toInt() < sortedWeeks.length) {
                           final date = sortedWeeks[value.toInt()].key;
                           return Text(
                             DateFormat('M/d').format(date),
@@ -959,7 +981,8 @@ class _AnalyticsContent extends StatelessWidget {
   Widget _buildWeeklyComparison() {
     final thisWeek = _getWeeklyExpense(0);
     final lastWeek = _getWeeklyExpense(1);
-    final change = lastWeek > 0 ? ((thisWeek - lastWeek) / lastWeek) * 100 : 0.0;
+    final change =
+        lastWeek > 0 ? ((thisWeek - lastWeek) / lastWeek) * 100 : 0.0;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -1098,14 +1121,17 @@ class _AnalyticsContent extends StatelessWidget {
             'Projected Monthly Total',
             '\$${NumberFormat('#,##0.00').format(projectedMonthly)}',
             Icons.trending_up,
-            projectedMonthly > monthlyAverage ? AppTheme.error : AppTheme.success,
+            projectedMonthly > monthlyAverage
+                ? AppTheme.error
+                : AppTheme.success,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInsightItem(String title, String value, IconData icon, Color color) {
+  Widget _buildInsightItem(
+      String title, String value, IconData icon, Color color) {
     return Row(
       children: [
         Container(
@@ -1142,11 +1168,12 @@ class _AnalyticsContent extends StatelessWidget {
 
   double _getWeeklyExpense(int weeksAgo) {
     final now = DateTime.now();
-    final weekStart = now.subtract(Duration(days: now.weekday - 1 + (weeksAgo * 7)));
+    final weekStart =
+        now.subtract(Duration(days: now.weekday - 1 + (weeksAgo * 7)));
     final weekEnd = weekStart.add(const Duration(days: 6));
 
     return state.transactions
-        .where((t) => 
+        .where((t) =>
             t.type == TransactionType.expense &&
             t.date.isAfter(weekStart.subtract(const Duration(days: 1))) &&
             t.date.isBefore(weekEnd.add(const Duration(days: 1))))
@@ -1155,17 +1182,19 @@ class _AnalyticsContent extends StatelessWidget {
 
   double _getMonthlyAverageExpense() {
     final monthlyExpenses = <int, double>{};
-    
+
     for (final transaction in state.transactions) {
       if (transaction.type == TransactionType.expense) {
         final monthKey = transaction.date.year * 12 + transaction.date.month;
-        monthlyExpenses[monthKey] = (monthlyExpenses[monthKey] ?? 0) + transaction.amount;
+        monthlyExpenses[monthKey] =
+            (monthlyExpenses[monthKey] ?? 0) + transaction.amount;
       }
     }
 
     if (monthlyExpenses.isEmpty) return 0;
-    
-    final total = monthlyExpenses.values.fold(0.0, (sum, amount) => sum + amount);
+
+    final total =
+        monthlyExpenses.values.fold(0.0, (sum, amount) => sum + amount);
     return total / monthlyExpenses.length;
   }
 
@@ -1174,7 +1203,7 @@ class _AnalyticsContent extends StatelessWidget {
     final monthStart = DateTime(now.year, now.month, 1);
 
     return state.transactions
-        .where((t) => 
+        .where((t) =>
             t.type == TransactionType.expense &&
             t.date.isAfter(monthStart.subtract(const Duration(days: 1))))
         .fold(0.0, (sum, t) => sum + t.amount);
@@ -1187,7 +1216,7 @@ class _AnalyticsContent extends StatelessWidget {
     final daysPassed = now.day;
 
     if (daysPassed == 0) return 0;
-    
+
     return (currentMonth / daysPassed) * daysInMonth;
   }
 
@@ -1287,7 +1316,7 @@ class _LoadingWidget extends StatelessWidget {
 
 class _ErrorWidget extends StatelessWidget {
   final String message;
-  
+
   const _ErrorWidget({required this.message});
 
   @override
@@ -1344,7 +1373,8 @@ class _ErrorWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryBlue,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

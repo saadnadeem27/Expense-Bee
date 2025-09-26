@@ -84,76 +84,78 @@ class RecentTransactions extends StatelessWidget {
     final categoryColor = _getCategoryColor(transaction.category);
 
     return GestureDetector(
-      onTap: onTransactionTap != null ? () => onTransactionTap!(transaction) : null,
+      onTap: onTransactionTap != null
+          ? () => onTransactionTap!(transaction)
+          : null,
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Row(
-        children: [
-          // Category Icon
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: categoryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
+          children: [
+            // Category Icon
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: categoryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                iconData,
+                color: categoryColor,
+                size: 24,
+              ),
             ),
-            child: Icon(
-              iconData,
-              color: categoryColor,
-              size: 24,
+
+            const SizedBox(width: 12),
+
+            // Transaction Details
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.title,
+                    style: AppTheme.bodyLarge.copyWith(
+                      color: AppTheme.darkBlue,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    transaction.category,
+                    style: AppTheme.bodySmall.copyWith(
+                      color: AppTheme.softGray,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          
-          const SizedBox(width: 12),
-          
-          // Transaction Details
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+            // Amount and Date
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  transaction.title,
+                  '${isExpense ? '-' : '+'}${currencyFormat.format(transaction.amount)}',
                   style: AppTheme.bodyLarge.copyWith(
-                    color: AppTheme.darkBlue,
-                    fontWeight: FontWeight.w600,
+                    color: isExpense ? AppTheme.error : AppTheme.success,
+                    fontWeight: FontWeight.bold,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  transaction.category,
+                  DateFormat('MMM dd').format(transaction.date),
                   style: AppTheme.bodySmall.copyWith(
                     color: AppTheme.softGray,
                   ),
                 ),
               ],
             ),
-          ),
-          
-          // Amount and Date
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${isExpense ? '-' : '+'}${currencyFormat.format(transaction.amount)}',
-                style: AppTheme.bodyLarge.copyWith(
-                  color: isExpense ? AppTheme.error : AppTheme.success,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                DateFormat('MMM dd').format(transaction.date),
-                style: AppTheme.bodySmall.copyWith(
-                  color: AppTheme.softGray,
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 

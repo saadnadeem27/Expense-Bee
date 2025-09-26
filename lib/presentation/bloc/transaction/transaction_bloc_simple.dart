@@ -169,23 +169,23 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     Emitter<TransactionState> emit,
   ) async {
     emit(const TransactionLoading());
-    
+
     try {
       // Simulate loading delay
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       // Generate dummy data
       final accounts = DummyDataGenerator.generateAccounts();
       final transactions = DummyDataGenerator.generateTransactions(accounts);
-      
+
       final totalIncome = transactions
           .where((t) => t.type == TransactionType.income)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       final totalExpense = transactions
           .where((t) => t.type == TransactionType.expense)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       emit(TransactionLoaded(
         transactions: transactions,
         filteredTransactions: transactions,
@@ -203,19 +203,20 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
-      final updatedTransactions = List<Transaction>.from(currentState.transactions)
-        ..add(event.transaction)
-        ..sort((a, b) => b.date.compareTo(a.date));
-      
+
+      final updatedTransactions =
+          List<Transaction>.from(currentState.transactions)
+            ..add(event.transaction)
+            ..sort((a, b) => b.date.compareTo(a.date));
+
       final totalIncome = updatedTransactions
           .where((t) => t.type == TransactionType.income)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       final totalExpense = updatedTransactions
           .where((t) => t.type == TransactionType.expense)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       emit(currentState.copyWith(
         transactions: updatedTransactions,
         filteredTransactions: updatedTransactions,
@@ -231,21 +232,21 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
+
       final updatedTransactions = currentState.transactions.map((transaction) {
         return transaction.id == event.transaction.id
             ? event.transaction
             : transaction;
       }).toList();
-      
+
       final totalIncome = updatedTransactions
           .where((t) => t.type == TransactionType.income)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       final totalExpense = updatedTransactions
           .where((t) => t.type == TransactionType.expense)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       emit(currentState.copyWith(
         transactions: updatedTransactions,
         filteredTransactions: updatedTransactions,
@@ -261,19 +262,19 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
+
       final updatedTransactions = currentState.transactions
           .where((transaction) => transaction.id != event.transactionId)
           .toList();
-      
+
       final totalIncome = updatedTransactions
           .where((t) => t.type == TransactionType.income)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       final totalExpense = updatedTransactions
           .where((t) => t.type == TransactionType.expense)
           .fold(0.0, (sum, t) => sum + t.amount);
-      
+
       emit(currentState.copyWith(
         transactions: updatedTransactions,
         filteredTransactions: updatedTransactions,
@@ -289,41 +290,43 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
-      var filteredTransactions = List<Transaction>.from(currentState.transactions);
-      
+
+      var filteredTransactions =
+          List<Transaction>.from(currentState.transactions);
+
       if (event.category != null && event.category!.isNotEmpty) {
         filteredTransactions = filteredTransactions
             .where((t) => t.category == event.category)
             .toList();
       }
-      
+
       if (event.type != null) {
-        filteredTransactions = filteredTransactions
-            .where((t) => t.type == event.type)
-            .toList();
+        filteredTransactions =
+            filteredTransactions.where((t) => t.type == event.type).toList();
       }
-      
+
       if (event.startDate != null) {
         filteredTransactions = filteredTransactions
-            .where((t) => t.date.isAfter(event.startDate!) || 
-                         t.date.isAtSameMomentAs(event.startDate!))
+            .where((t) =>
+                t.date.isAfter(event.startDate!) ||
+                t.date.isAtSameMomentAs(event.startDate!))
             .toList();
       }
-      
+
       if (event.endDate != null) {
         filteredTransactions = filteredTransactions
-            .where((t) => t.date.isBefore(event.endDate!) || 
-                         t.date.isAtSameMomentAs(event.endDate!))
+            .where((t) =>
+                t.date.isBefore(event.endDate!) ||
+                t.date.isAtSameMomentAs(event.endDate!))
             .toList();
       }
-      
+
       if (event.accountId != null && event.accountId!.isNotEmpty) {
         filteredTransactions = filteredTransactions
             .where((t) => t.accountId == event.accountId)
             .toList();
       }
-      
+
       emit(currentState.copyWith(
         filteredTransactions: filteredTransactions,
         filterCategory: event.category,
@@ -340,19 +343,26 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
+
       if (event.query.isEmpty) {
-        emit(currentState.copyWith(filteredTransactions: currentState.transactions));
+        emit(currentState.copyWith(
+            filteredTransactions: currentState.transactions));
         return;
       }
-      
+
       final filteredTransactions = currentState.transactions
           .where((transaction) =>
-              transaction.title.toLowerCase().contains(event.query.toLowerCase()) ||
-              transaction.description.toLowerCase().contains(event.query.toLowerCase()) ||
-              transaction.category.toLowerCase().contains(event.query.toLowerCase()))
+              transaction.title
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()) ||
+              transaction.description
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()) ||
+              transaction.category
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()))
           .toList();
-      
+
       emit(currentState.copyWith(filteredTransactions: filteredTransactions));
     }
   }

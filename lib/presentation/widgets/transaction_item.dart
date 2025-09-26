@@ -51,9 +51,9 @@ class TransactionItem extends StatelessWidget {
                 size: 24,
               ),
             ),
-            
+
             const SizedBox(width: 16),
-            
+
             // Transaction Details
             Expanded(
               child: Column(

@@ -16,7 +16,7 @@ void main() {
 
     // Verify that the app builds without crashing
     await tester.pumpAndSettle();
-    
+
     // Check that the app name appears somewhere
     expect(find.text('Expense Bee'), findsOneWidget);
   });

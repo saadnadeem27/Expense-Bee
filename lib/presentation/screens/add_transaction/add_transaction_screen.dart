@@ -42,7 +42,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_onTabChanged);
-    
+
     // Initialize with existing transaction data if editing
     if (widget.transaction != null) {
       _initializeWithExistingTransaction();
@@ -63,7 +63,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     _isRecurring = transaction.isRecurring;
     _recurringPeriod = transaction.recurringPeriod ?? RecurringPeriod.monthly;
     _recurringEndDate = transaction.recurringEndDate;
-    
+
     // Set tab based on transaction type
     _tabController.index = _transactionType == TransactionType.income ? 1 : 0;
   }
@@ -81,9 +81,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     final categories = _transactionType == TransactionType.income
         ? AppConstants.incomeCategories
         : AppConstants.expenseCategories;
-    
-    if (_selectedCategory == null || 
-        !categories.contains(_selectedCategory)) {
+
+    if (_selectedCategory == null || !categories.contains(_selectedCategory)) {
       _selectedCategory = categories.first;
     }
   }
@@ -180,7 +179,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
           const SizedBox(width: 16),
           Expanded(
             child: Text(
-              widget.transaction != null ? 'Edit Transaction' : 'Add Transaction',
+              widget.transaction != null
+                  ? 'Edit Transaction'
+                  : 'Add Transaction',
               style: AppTheme.headingLarge.copyWith(
                 color: AppTheme.darkBlue,
                 fontWeight: FontWeight.bold,
@@ -413,8 +414,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, 
-                       color: AppTheme.softGray, size: 16),
+            const Icon(Icons.arrow_forward_ios,
+                color: AppTheme.softGray, size: 16),
           ],
         ),
       ),
@@ -485,12 +486,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             return GestureDetector(
               onTap: () => setState(() => _recurringPeriod = period),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: isSelected ? AppTheme.primaryBlue : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: isSelected ? AppTheme.primaryBlue : AppTheme.lightGray,
+                    color:
+                        isSelected ? AppTheme.primaryBlue : AppTheme.lightGray,
                   ),
                 ),
                 child: Text(
@@ -571,7 +574,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                 ),
               )
             : Text(
-                widget.transaction != null ? 'Update Transaction' : 'Save Transaction',
+                widget.transaction != null
+                    ? 'Update Transaction'
+                    : 'Save Transaction',
                 style: AppTheme.bodyLarge.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -609,7 +614,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
   void _selectRecurringEndDate() async {
     final date = await showDatePicker(
       context: context,
-      initialDate: _recurringEndDate ?? DateTime.now().add(const Duration(days: 30)),
+      initialDate:
+          _recurringEndDate ?? DateTime.now().add(const Duration(days: 30)),
       firstDate: _selectedDate.add(const Duration(days: 1)),
       lastDate: DateTime.now().add(const Duration(days: 3650)), // 10 years
       builder: (context, child) {
@@ -664,13 +670,17 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       );
 
       if (widget.transaction != null) {
-        context.read<TransactionBloc>().add(UpdateTransaction(transaction: transaction));
+        context
+            .read<TransactionBloc>()
+            .add(UpdateTransaction(transaction: transaction));
       } else {
-        context.read<TransactionBloc>().add(AddTransaction(transaction: transaction));
+        context
+            .read<TransactionBloc>()
+            .add(AddTransaction(transaction: transaction));
       }
 
       Navigator.pop(context);
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -702,7 +712,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Transaction'),
-        content: const Text('Are you sure you want to delete this transaction? This action cannot be undone.'),
+        content: const Text(
+            'Are you sure you want to delete this transaction? This action cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -715,7 +726,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                   );
               Navigator.pop(context); // Close dialog
               Navigator.pop(context); // Close screen
-              
+
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Transaction deleted successfully!'),

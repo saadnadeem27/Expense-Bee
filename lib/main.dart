@@ -9,10 +9,10 @@ import 'presentation/screens/onboarding/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Hive
   await Hive.initFlutter();
-  
+
   // Register Hive adapters (will be generated)
   // Hive.registerAdapter(TransactionAdapter());
   // Hive.registerAdapter(TransactionTypeAdapter());
