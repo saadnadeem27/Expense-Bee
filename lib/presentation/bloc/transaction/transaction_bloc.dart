@@ -23,15 +23,15 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     Emitter<TransactionState> emit,
   ) async {
     emit(const TransactionLoading());
-    
+
     try {
       // Load dummy data
       final accounts = DummyDataGenerator.generateAccounts();
       _allTransactions = DummyDataGenerator.generateTransactions(accounts);
-      
+
       final totalIncome = _calculateTotalIncome(_allTransactions);
       final totalExpense = _calculateTotalExpense(_allTransactions);
-      
+
       emit(TransactionLoaded(
         transactions: _allTransactions,
         filteredTransactions: _allTransactions,
@@ -39,7 +39,8 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         totalExpense: totalExpense,
       ));
     } catch (e) {
-      emit(TransactionError(message: 'Failed to load transactions: ${e.toString()}'));
+      emit(TransactionError(
+          message: 'Failed to load transactions: ${e.toString()}'));
     }
   }
 
@@ -51,10 +52,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       final currentState = state as TransactionLoaded;
       _allTransactions.add(event.transaction);
       _allTransactions.sort((a, b) => b.date.compareTo(a.date));
-      
+
       final totalIncome = _calculateTotalIncome(_allTransactions);
       final totalExpense = _calculateTotalExpense(_allTransactions);
-      
+
       emit(currentState.copyWith(
         transactions: List.from(_allTransactions),
         filteredTransactions: _applyFilters(_allTransactions, currentState),
@@ -70,15 +71,16 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      final index = _allTransactions.indexWhere((t) => t.id == event.transaction.id);
-      
+      final index =
+          _allTransactions.indexWhere((t) => t.id == event.transaction.id);
+
       if (index != -1) {
         _allTransactions[index] = event.transaction;
         _allTransactions.sort((a, b) => b.date.compareTo(a.date));
-        
+
         final totalIncome = _calculateTotalIncome(_allTransactions);
         final totalExpense = _calculateTotalExpense(_allTransactions);
-        
+
         emit(currentState.copyWith(
           transactions: List.from(_allTransactions),
           filteredTransactions: _applyFilters(_allTransactions, currentState),
@@ -96,10 +98,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
       _allTransactions.removeWhere((t) => t.id == event.transactionId);
-      
+
       final totalIncome = _calculateTotalIncome(_allTransactions);
       final totalExpense = _calculateTotalExpense(_allTransactions);
-      
+
       emit(currentState.copyWith(
         transactions: List.from(_allTransactions),
         filteredTransactions: _applyFilters(_allTransactions, currentState),
@@ -115,9 +117,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
+
       emit(currentState.copyWith(
-        filteredTransactions: _applyFilters(_allTransactions, null,
+        filteredTransactions: _applyFilters(
+          _allTransactions,
+          null,
           category: event.category,
           type: event.type,
           startDate: event.startDate,
@@ -138,17 +142,23 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   ) async {
     if (state is TransactionLoaded) {
       final currentState = state as TransactionLoaded;
-      
+
       List<Transaction> searchResults = _allTransactions;
-      
+
       if (event.query.isNotEmpty) {
         searchResults = _allTransactions.where((transaction) {
-          return transaction.title.toLowerCase().contains(event.query.toLowerCase()) ||
-                 transaction.description.toLowerCase().contains(event.query.toLowerCase()) ||
-                 transaction.category.toLowerCase().contains(event.query.toLowerCase());
+          return transaction.title
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()) ||
+              transaction.description
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()) ||
+              transaction.category
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase());
         }).toList();
       }
-      
+
       emit(currentState.copyWith(
         filteredTransactions: searchResults,
       ));
@@ -165,34 +175,40 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     String? accountId,
   }) {
     List<Transaction> filtered = List.from(transactions);
-    
+
     final filterCategory = category ?? currentState?.filterCategory;
     final filterType = type ?? currentState?.filterType;
     final filterStartDate = startDate ?? currentState?.filterStartDate;
     final filterEndDate = endDate ?? currentState?.filterEndDate;
-    
+
     if (filterCategory != null) {
       filtered = filtered.where((t) => t.category == filterCategory).toList();
     }
-    
+
     if (filterType != null) {
       filtered = filtered.where((t) => t.type == filterType).toList();
     }
-    
+
     if (filterStartDate != null) {
-      filtered = filtered.where((t) => t.date.isAfter(filterStartDate) || 
-                                      t.date.isAtSameMomentAs(filterStartDate)).toList();
+      filtered = filtered
+          .where((t) =>
+              t.date.isAfter(filterStartDate) ||
+              t.date.isAtSameMomentAs(filterStartDate))
+          .toList();
     }
-    
+
     if (filterEndDate != null) {
-      filtered = filtered.where((t) => t.date.isBefore(filterEndDate) || 
-                                      t.date.isAtSameMomentAs(filterEndDate)).toList();
+      filtered = filtered
+          .where((t) =>
+              t.date.isBefore(filterEndDate) ||
+              t.date.isAtSameMomentAs(filterEndDate))
+          .toList();
     }
-    
+
     if (accountId != null) {
       filtered = filtered.where((t) => t.accountId == accountId).toList();
     }
-    
+
     return filtered;
   }
 

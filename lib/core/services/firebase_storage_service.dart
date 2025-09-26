@@ -8,7 +8,7 @@ import 'dart:typed_data';
 /// Handles file uploads, downloads, and storage management
 class FirebaseStorageService {
   // final FirebaseStorage _storage = FirebaseStorage.instance;
-  
+
   static const String _profileImagesFolder = 'profile_images';
   static const String _transactionReceiptsFolder = 'transaction_receipts';
   static const String _documentsFolder = 'documents';
@@ -20,7 +20,7 @@ class FirebaseStorageService {
       // final uploadTask = ref.putFile(imageFile);
       // final snapshot = await uploadTask;
       // final downloadUrl = await snapshot.ref.getDownloadURL();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 2)); // Simulate upload time
       return 'https://firebasestorage.googleapis.com/profile_images/$userId.jpg';
@@ -31,8 +31,8 @@ class FirebaseStorageService {
 
   /// Upload transaction receipt
   Future<String?> uploadTransactionReceipt(
-    String userId, 
-    String transactionId, 
+    String userId,
+    String transactionId,
     File receiptFile,
   ) async {
     try {
@@ -41,7 +41,7 @@ class FirebaseStorageService {
       // final uploadTask = ref.putFile(receiptFile);
       // final snapshot = await uploadTask;
       // final downloadUrl = await snapshot.ref.getDownloadURL();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 1));
       return 'https://firebasestorage.googleapis.com/receipts/$userId/$transactionId.jpg';
@@ -62,7 +62,7 @@ class FirebaseStorageService {
       // final uploadTask = ref.putData(bytes, metadata);
       // final snapshot = await uploadTask;
       // final downloadUrl = await snapshot.ref.getDownloadURL();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 1));
       return 'https://firebasestorage.googleapis.com/$path';
@@ -76,7 +76,7 @@ class FirebaseStorageService {
     try {
       // final ref = _storage.ref().child(filePath);
       // await ref.delete();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
     } catch (e) {
@@ -89,7 +89,7 @@ class FirebaseStorageService {
     try {
       // final ref = _storage.ref().child(filePath);
       // final downloadUrl = await ref.getDownloadURL();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
       return 'https://firebasestorage.googleapis.com/$filePath';
@@ -103,13 +103,13 @@ class FirebaseStorageService {
     try {
       // final ref = _storage.ref().child(folderPath);
       // final result = await ref.listAll();
-      
+
       // return result.items.map((item) => StorageItem(
       //   name: item.name,
       //   fullPath: item.fullPath,
       //   bucket: item.bucket,
       // )).toList();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
       return [
@@ -129,14 +129,14 @@ class FirebaseStorageService {
     try {
       // final ref = _storage.ref().child(filePath);
       // final metadata = await ref.getMetadata();
-      
+
       // return StorageMetadata(
       //   size: metadata.size,
       //   contentType: metadata.contentType,
       //   createdAt: metadata.timeCreated,
       //   updatedAt: metadata.updated,
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
       return StorageMetadata(
@@ -172,14 +172,15 @@ class FirebaseStorageService {
       //   maxWidth: maxWidth,
       //   maxHeight: maxHeight,
       // );
-      
+
       // return await uploadProfileImage(userId, compressedFile);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 2));
       return 'https://firebasestorage.googleapis.com/compressed_images/$userId.jpg';
     } catch (e) {
-      throw StorageException('Failed to compress and upload image: ${e.toString()}');
+      throw StorageException(
+          'Failed to compress and upload image: ${e.toString()}');
     }
   }
 
@@ -187,17 +188,17 @@ class FirebaseStorageService {
   Future<List<String>> batchUpload(List<UploadTask> uploadTasks) async {
     try {
       final List<String> downloadUrls = [];
-      
+
       for (final task in uploadTasks) {
         // final snapshot = await task.uploadTask;
         // final downloadUrl = await snapshot.ref.getDownloadURL();
         // downloadUrls.add(downloadUrl);
-        
+
         // Placeholder implementation
         await Future.delayed(const Duration(seconds: 1));
         downloadUrls.add('https://firebasestorage.googleapis.com/${task.path}');
       }
-      
+
       return downloadUrls;
     } catch (e) {
       throw StorageException('Batch upload failed: ${e.toString()}');

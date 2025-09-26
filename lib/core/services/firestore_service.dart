@@ -9,7 +9,7 @@ import '../../domain/entities/transaction.dart';
 /// Handles all database operations for transactions, budgets, and user data
 class FirestoreService {
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  
+
   static const String _transactionsCollection = 'transactions';
   static const String _budgetsCollection = 'budgets';
   static const String _goalsCollection = 'goals';
@@ -43,11 +43,11 @@ class FirestoreService {
       // final docRef = await _firestore
       //     .collection(_transactionsCollection)
       //     .add(transaction.toFirestore());
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
       final transactionId = 'txn_${DateTime.now().millisecondsSinceEpoch}';
-      
+
       return transactionId;
     } catch (e) {
       throw Exception('Failed to add transaction: ${e.toString()}');
@@ -55,13 +55,14 @@ class FirestoreService {
   }
 
   /// Update transaction
-  Future<void> updateTransaction(String transactionId, Transaction transaction) async {
+  Future<void> updateTransaction(
+      String transactionId, Transaction transaction) async {
     try {
       // await _firestore
       //     .collection(_transactionsCollection)
       //     .doc(transactionId)
       //     .update(transaction.toFirestore());
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
     } catch (e) {
@@ -76,7 +77,7 @@ class FirestoreService {
       //     .collection(_transactionsCollection)
       //     .doc(transactionId)
       //     .delete();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
     } catch (e) {
@@ -110,7 +111,7 @@ class FirestoreService {
       // final docRef = await _firestore
       //     .collection(_budgetsCollection)
       //     .add(budget.toFirestore());
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
       return 'budget_${DateTime.now().millisecondsSinceEpoch}';
@@ -145,7 +146,7 @@ class FirestoreService {
       // final docRef = await _firestore
       //     .collection(_goalsCollection)
       //     .add(goal.toFirestore());
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
       return 'goal_${DateTime.now().millisecondsSinceEpoch}';
@@ -155,13 +156,14 @@ class FirestoreService {
   }
 
   /// Save user profile
-  Future<void> saveUserProfile(String userId, Map<String, dynamic> userData) async {
+  Future<void> saveUserProfile(
+      String userId, Map<String, dynamic> userData) async {
     try {
       // await _firestore
       //     .collection(_usersCollection)
       //     .doc(userId)
       //     .set(userData, SetOptions(merge: true));
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
     } catch (e) {
@@ -176,9 +178,9 @@ class FirestoreService {
       //     .collection(_usersCollection)
       //     .doc(userId)
       //     .get();
-      
+
       // return doc.exists ? doc.data() : null;
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
       return {
@@ -199,10 +201,11 @@ class FirestoreService {
   }
 
   /// Batch operations for multiple transactions
-  Future<void> batchTransactions(List<TransactionBatchOperation> operations) async {
+  Future<void> batchTransactions(
+      List<TransactionBatchOperation> operations) async {
     try {
       // final batch = _firestore.batch();
-      
+
       // for (final operation in operations) {
       //   switch (operation.type) {
       //     case BatchOperationType.add:
@@ -219,9 +222,9 @@ class FirestoreService {
       //       break;
       //   }
       // }
-      
+
       // await batch.commit();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 800));
     } catch (e) {

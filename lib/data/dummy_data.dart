@@ -14,11 +14,36 @@ class DummyDataGenerator {
   static List<Account> generateAccounts() {
     final accounts = <Account>[];
     final accountData = [
-      {'name': 'Main Bank Account', 'type': AccountType.bankAccount, 'balance': 15000.0, 'color': 0xFF667eea},
-      {'name': 'Cash Wallet', 'type': AccountType.cash, 'balance': 500.0, 'color': 0xFF10B981},
-      {'name': 'Credit Card', 'type': AccountType.creditCard, 'balance': -2500.0, 'color': 0xFFEF4444},
-      {'name': 'PayPal', 'type': AccountType.digitalWallet, 'balance': 1200.0, 'color': 0xFF3B82F6},
-      {'name': 'Savings Account', 'type': AccountType.bankAccount, 'balance': 25000.0, 'color': 0xFF14B8A6},
+      {
+        'name': 'Main Bank Account',
+        'type': AccountType.bankAccount,
+        'balance': 15000.0,
+        'color': 0xFF667eea
+      },
+      {
+        'name': 'Cash Wallet',
+        'type': AccountType.cash,
+        'balance': 500.0,
+        'color': 0xFF10B981
+      },
+      {
+        'name': 'Credit Card',
+        'type': AccountType.creditCard,
+        'balance': -2500.0,
+        'color': 0xFFEF4444
+      },
+      {
+        'name': 'PayPal',
+        'type': AccountType.digitalWallet,
+        'balance': 1200.0,
+        'color': 0xFF3B82F6
+      },
+      {
+        'name': 'Savings Account',
+        'type': AccountType.bankAccount,
+        'balance': 25000.0,
+        'color': 0xFF14B8A6
+      },
     ];
 
     for (final data in accountData) {
@@ -29,7 +54,8 @@ class DummyDataGenerator {
         balance: data['balance'] as double,
         currency: 'USD',
         color: data['color'] as int,
-        createdAt: DateTime.now().subtract(Duration(days: _random.nextInt(365))),
+        createdAt:
+            DateTime.now().subtract(Duration(days: _random.nextInt(365))),
         updatedAt: DateTime.now(),
       ));
     }
@@ -44,17 +70,37 @@ class DummyDataGenerator {
 
     // Expense transactions
     final expenseData = [
-      {'title': 'Grocery Shopping', 'category': 'Food & Dining', 'amount': 85.50},
+      {
+        'title': 'Grocery Shopping',
+        'category': 'Food & Dining',
+        'amount': 85.50
+      },
       {'title': 'Gas Station', 'category': 'Transportation', 'amount': 45.00},
-      {'title': 'Netflix Subscription', 'category': 'Entertainment', 'amount': 15.99},
+      {
+        'title': 'Netflix Subscription',
+        'category': 'Entertainment',
+        'amount': 15.99
+      },
       {'title': 'Coffee Shop', 'category': 'Food & Dining', 'amount': 12.50},
       {'title': 'Uber Ride', 'category': 'Transportation', 'amount': 22.30},
       {'title': 'Amazon Purchase', 'category': 'Shopping', 'amount': 156.78},
-      {'title': 'Electricity Bill', 'category': 'Bills & Utilities', 'amount': 120.00},
-      {'title': 'Internet Bill', 'category': 'Bills & Utilities', 'amount': 60.00},
+      {
+        'title': 'Electricity Bill',
+        'category': 'Bills & Utilities',
+        'amount': 120.00
+      },
+      {
+        'title': 'Internet Bill',
+        'category': 'Bills & Utilities',
+        'amount': 60.00
+      },
       {'title': 'Pharmacy', 'category': 'Healthcare', 'amount': 35.25},
       {'title': 'Movie Tickets', 'category': 'Entertainment', 'amount': 28.00},
-      {'title': 'Restaurant Dinner', 'category': 'Food & Dining', 'amount': 95.75},
+      {
+        'title': 'Restaurant Dinner',
+        'category': 'Food & Dining',
+        'amount': 95.75
+      },
       {'title': 'Gym Membership', 'category': 'Personal Care', 'amount': 50.00},
       {'title': 'Book Store', 'category': 'Education', 'amount': 24.99},
       {'title': 'Hair Salon', 'category': 'Personal Care', 'amount': 80.00},
@@ -65,7 +111,11 @@ class DummyDataGenerator {
     final incomeData = [
       {'title': 'Monthly Salary', 'category': 'Salary', 'amount': 4500.00},
       {'title': 'Freelance Project', 'category': 'Freelance', 'amount': 850.00},
-      {'title': 'Investment Dividend', 'category': 'Investment', 'amount': 125.50},
+      {
+        'title': 'Investment Dividend',
+        'category': 'Investment',
+        'amount': 125.50
+      },
       {'title': 'Bonus Payment', 'category': 'Bonus', 'amount': 1000.00},
       {'title': 'Side Business', 'category': 'Business', 'amount': 300.00},
     ];
@@ -74,12 +124,13 @@ class DummyDataGenerator {
     for (int i = 0; i < 50; i++) {
       final expenseItem = expenseData[_random.nextInt(expenseData.length)];
       final account = accounts[_random.nextInt(accounts.length)];
-      
+
       transactions.add(Transaction(
         id: _uuid.v4(),
         title: expenseItem['title'] as String,
         description: 'Auto-generated expense transaction',
-        amount: (expenseItem['amount'] as double) + (_random.nextDouble() * 20 - 10),
+        amount: (expenseItem['amount'] as double) +
+            (_random.nextDouble() * 20 - 10),
         category: expenseItem['category'] as String,
         type: TransactionType.expense,
         date: now.subtract(Duration(days: _random.nextInt(30))),
@@ -91,7 +142,7 @@ class DummyDataGenerator {
     for (int i = 0; i < 8; i++) {
       final incomeItem = incomeData[_random.nextInt(incomeData.length)];
       final account = accounts[_random.nextInt(accounts.length)];
-      
+
       transactions.add(Transaction(
         id: _uuid.v4(),
         title: incomeItem['title'] as String,
@@ -117,11 +168,41 @@ class DummyDataGenerator {
     final endOfMonth = DateTime(now.year, now.month + 1, 0);
 
     final budgetData = [
-      {'name': 'Food Budget', 'category': 'Food & Dining', 'amount': 500.0, 'spent': 325.50, 'color': 0xFF10B981},
-      {'name': 'Transportation', 'category': 'Transportation', 'amount': 200.0, 'spent': 145.30, 'color': 0xFF3B82F6},
-      {'name': 'Entertainment', 'category': 'Entertainment', 'amount': 150.0, 'spent': 89.99, 'color': 0xFFEC4899},
-      {'name': 'Shopping', 'category': 'Shopping', 'amount': 300.0, 'spent': 456.78, 'color': 0xFFEF4444},
-      {'name': 'Bills', 'category': 'Bills & Utilities', 'amount': 400.0, 'spent': 235.00, 'color': 0xFF14B8A6},
+      {
+        'name': 'Food Budget',
+        'category': 'Food & Dining',
+        'amount': 500.0,
+        'spent': 325.50,
+        'color': 0xFF10B981
+      },
+      {
+        'name': 'Transportation',
+        'category': 'Transportation',
+        'amount': 200.0,
+        'spent': 145.30,
+        'color': 0xFF3B82F6
+      },
+      {
+        'name': 'Entertainment',
+        'category': 'Entertainment',
+        'amount': 150.0,
+        'spent': 89.99,
+        'color': 0xFFEC4899
+      },
+      {
+        'name': 'Shopping',
+        'category': 'Shopping',
+        'amount': 300.0,
+        'spent': 456.78,
+        'color': 0xFFEF4444
+      },
+      {
+        'name': 'Bills',
+        'category': 'Bills & Utilities',
+        'amount': 400.0,
+        'spent': 235.00,
+        'color': 0xFF14B8A6
+      },
     ];
 
     for (final data in budgetData) {
@@ -158,7 +239,8 @@ class DummyDataGenerator {
       },
       {
         'name': 'Vacation to Japan',
-        'description': 'Save for a 2-week trip to Japan including flights and accommodation',
+        'description':
+            'Save for a 2-week trip to Japan including flights and accommodation',
         'target': 5000.0,
         'current': 2300.0,
         'category': GoalCategory.vacation,
@@ -212,7 +294,8 @@ class DummyDataGenerator {
     // Generate last 12 months data
     for (int i = 11; i >= 0; i--) {
       final month = DateTime(now.year, now.month - i, 1);
-      final monthKey = '${month.month.toString().padLeft(2, '0')}/${month.year}';
+      final monthKey =
+          '${month.month.toString().padLeft(2, '0')}/${month.year}';
       monthlyData[monthKey] = 1000 + (_random.nextDouble() * 2000);
     }
 

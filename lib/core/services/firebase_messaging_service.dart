@@ -46,7 +46,7 @@ class FirebaseMessagingService {
     try {
       // final token = await _messaging.getToken();
       // return token;
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 300));
       return 'fcm_token_placeholder_${DateTime.now().millisecondsSinceEpoch}';
@@ -60,7 +60,7 @@ class FirebaseMessagingService {
   Future<void> subscribeToTopic(String topic) async {
     try {
       // await _messaging.subscribeToTopic(topic);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 200));
       print('FCM: Subscribed to topic: $topic');
@@ -73,7 +73,7 @@ class FirebaseMessagingService {
   Future<void> unsubscribeFromTopic(String topic) async {
     try {
       // await _messaging.unsubscribeFromTopic(topic);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 200));
       print('FCM: Unsubscribed from topic: $topic');
@@ -105,7 +105,7 @@ class FirebaseMessagingService {
   /// Handle foreground messages
   void _handleMessage(Map<String, dynamic> message) {
     final notification = NotificationData.fromMap(message);
-    
+
     switch (notification.type) {
       case NotificationType.budgetAlert:
         _handleBudgetAlert(notification);
@@ -128,7 +128,7 @@ class FirebaseMessagingService {
   /// Handle message when app is opened from notification
   void _handleMessageOpenedApp(Map<String, dynamic> message) {
     final notification = NotificationData.fromMap(message);
-    
+
     // Navigate to appropriate screen based on notification type
     switch (notification.type) {
       case NotificationType.budgetAlert:
@@ -284,7 +284,7 @@ class FirebaseMessagingService {
     try {
       // Clear FCM notifications
       // await _messaging.deleteToken();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 200));
       print('FCM: All notifications cleared');

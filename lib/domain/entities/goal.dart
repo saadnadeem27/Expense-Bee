@@ -7,34 +7,34 @@ part 'goal.g.dart';
 class Goal extends Equatable {
   @HiveField(0)
   final String id;
-  
+
   @HiveField(1)
   final String name;
-  
+
   @HiveField(2)
   final String description;
-  
+
   @HiveField(3)
   final double targetAmount;
-  
+
   @HiveField(4)
   final double currentAmount;
-  
+
   @HiveField(5)
   final DateTime targetDate;
-  
+
   @HiveField(6)
   final DateTime createdAt;
-  
+
   @HiveField(7)
   final int color;
-  
+
   @HiveField(8)
   final String? imageUrl;
-  
+
   @HiveField(9)
   final bool isActive;
-  
+
   @HiveField(10)
   final GoalCategory category;
 
@@ -52,7 +52,8 @@ class Goal extends Equatable {
     required this.category,
   });
 
-  double get percentage => targetAmount > 0 ? (currentAmount / targetAmount) * 100 : 0;
+  double get percentage =>
+      targetAmount > 0 ? (currentAmount / targetAmount) * 100 : 0;
   double get remaining => targetAmount - currentAmount;
   bool get isCompleted => currentAmount >= targetAmount;
   int get daysRemaining => targetDate.difference(DateTime.now()).inDays;

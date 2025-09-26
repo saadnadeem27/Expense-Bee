@@ -303,6 +303,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support & Contact
 
 - **GitHub Issues**: [Report bugs and request features](https://github.com/saadnadeem27/expense-bee/issues)
+- **GitHub Profile**: [saadnadeem27](https://github.com/saadnadeem27)
+- **LinkedIn**: [Saad Nadeem - Expert Flutter Developer](https://www.linkedin.com/in/saad-nadeem-07-an-expert-flutter-developer/)
 - **Email**: saad.nadeem@expensebee.com
 - **Documentation**: [Wiki Pages](https://github.com/saadnadeem27/expense-bee/wiki)
 - **Community**: [Discord Server](https://discord.gg/expensebee)

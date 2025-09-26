@@ -2,12 +2,13 @@ class AppConstants {
   // App Information
   static const String appName = 'Expense Bee';
   static const String appVersion = '1.0.0';
-  static const String appDescription = 'Smart expense tracking with AI insights';
+  static const String appDescription =
+      'Smart expense tracking with AI insights';
 
   // API & Database
   static const String databaseName = 'expense_bee.db';
   static const int databaseVersion = 1;
-  
+
   // Shared Preferences Keys
   static const String keyThemeMode = 'theme_mode';
   static const String keyFirstLaunch = 'first_launch';
@@ -15,26 +16,26 @@ class AppConstants {
   static const String keyNotificationsEnabled = 'notifications_enabled';
   static const String keyDefaultCurrency = 'default_currency';
   static const String keyUserId = 'user_id';
-  
+
   // Animation Durations
   static const Duration shortAnimation = Duration(milliseconds: 200);
   static const Duration mediumAnimation = Duration(milliseconds: 300);
   static const Duration longAnimation = Duration(milliseconds: 500);
-  
+
   // UI Constants
   static const double borderRadius = 12.0;
   static const double cardElevation = 8.0;
   static const double buttonHeight = 56.0;
   static const double iconSize = 24.0;
   static const double avatarRadius = 20.0;
-  
+
   // Spacing
   static const double paddingXS = 4.0;
   static const double paddingS = 8.0;
   static const double paddingM = 16.0;
   static const double paddingL = 24.0;
   static const double paddingXL = 32.0;
-  
+
   // Categories
   static const List<String> expenseCategories = [
     'Food & Dining',
@@ -50,7 +51,7 @@ class AppConstants {
     'Business',
     'Others',
   ];
-  
+
   static const List<String> incomeCategories = [
     'Salary',
     'Freelance',
@@ -61,7 +62,7 @@ class AppConstants {
     'Gift',
     'Others',
   ];
-  
+
   // Account Types
   static const List<String> accountTypes = [
     'Cash',
@@ -71,7 +72,7 @@ class AppConstants {
     'Digital Wallet',
     'Investment',
   ];
-  
+
   // Currencies
   static const List<Map<String, String>> currencies = [
     {'code': 'USD', 'name': 'US Dollar', 'symbol': '\$'},
@@ -84,7 +85,7 @@ class AppConstants {
     {'code': 'CHF', 'name': 'Swiss Franc', 'symbol': 'CHF'},
     {'code': 'CNY', 'name': 'Chinese Yuan', 'symbol': '¥'},
   ];
-  
+
   // Recurring Periods
   static const List<String> recurringPeriods = [
     'Daily',
@@ -93,7 +94,7 @@ class AppConstants {
     'Quarterly',
     'Yearly',
   ];
-  
+
   // Chart Colors
   static const List<int> chartColors = [
     0xFF667eea,

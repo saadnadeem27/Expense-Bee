@@ -78,7 +78,7 @@ class _MainScreenState extends State<MainScreen>
       setState(() {
         _currentIndex = index;
       });
-      
+
       _pageController.animateToPage(
         index,
         duration: const Duration(milliseconds: 300),
@@ -146,7 +146,7 @@ class _MainScreenState extends State<MainScreen>
               items: _navItems.map((item) {
                 final index = _navItems.indexOf(item);
                 final isSelected = index == _currentIndex;
-                
+
                 return BottomNavigationBarItem(
                   icon: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),

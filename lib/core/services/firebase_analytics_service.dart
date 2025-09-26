@@ -30,10 +30,11 @@ class FirebaseAnalyticsService {
       //     'currency': 'USD', // This would come from user preferences
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
-      print('Analytics: Transaction added - ${transaction.category}: \$${transaction.amount}');
+      print(
+          'Analytics: Transaction added - ${transaction.category}: \$${transaction.amount}');
     } catch (e) {
       print('Failed to log transaction event: ${e.toString()}');
     }
@@ -50,7 +51,7 @@ class FirebaseAnalyticsService {
       //     'currency': 'USD',
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Budget created - $category: \$$amount');
@@ -70,7 +71,7 @@ class FirebaseAnalyticsService {
       //     'currency': 'USD',
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Goal created - $goalType: \$$targetAmount');
@@ -89,7 +90,7 @@ class FirebaseAnalyticsService {
       //     'update_count': updatedFields.length,
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Profile updated - ${updatedFields.keys.join(', ')}');
@@ -108,7 +109,7 @@ class FirebaseAnalyticsService {
       //     'screen_name': screenName,
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Category viewed - $category on $screenName');
@@ -127,7 +128,7 @@ class FirebaseAnalyticsService {
       //     'period': period,
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Report generated - $reportType for $period');
@@ -146,7 +147,7 @@ class FirebaseAnalyticsService {
       //     'new_value': newValue.toString(),
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Setting changed - $settingName: $newValue');
@@ -165,7 +166,7 @@ class FirebaseAnalyticsService {
       //     'format': format,
       //   },
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Data exported - $exportType as $format');
@@ -186,35 +187,35 @@ class FirebaseAnalyticsService {
       // if (userId != null) {
       //   await _analytics.setUserId(id: userId);
       // }
-      
+
       // if (subscriptionType != null) {
       //   await _analytics.setUserProperty(
       //     name: 'subscription_type',
       //     value: subscriptionType,
       //   );
       // }
-      
+
       // if (transactionCount != null) {
       //   await _analytics.setUserProperty(
       //     name: 'transaction_count',
       //     value: transactionCount.toString(),
       //   );
       // }
-      
+
       // if (preferredCurrency != null) {
       //   await _analytics.setUserProperty(
       //     name: 'preferred_currency',
       //     value: preferredCurrency,
       //   );
       // }
-      
+
       // if (notificationsEnabled != null) {
       //   await _analytics.setUserProperty(
       //     name: 'notifications_enabled',
       //     value: notificationsEnabled.toString(),
       //   );
       // }
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: User properties set');
@@ -230,7 +231,7 @@ class FirebaseAnalyticsService {
       //   screenName: screenName,
       //   screenClass: screenClass ?? screenName,
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 50));
       print('Analytics: Screen viewed - $screenName');
@@ -241,7 +242,7 @@ class FirebaseAnalyticsService {
 
   /// Log custom event with parameters
   Future<void> logCustomEvent(
-    String eventName, 
+    String eventName,
     Map<String, dynamic> parameters,
   ) async {
     try {
@@ -249,7 +250,7 @@ class FirebaseAnalyticsService {
       //   name: eventName,
       //   parameters: parameters,
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: Custom event - $eventName: $parameters');
@@ -262,7 +263,7 @@ class FirebaseAnalyticsService {
   Future<void> logAppOpen() async {
     try {
       // await _analytics.logAppOpen();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 50));
       print('Analytics: App opened');
@@ -275,7 +276,7 @@ class FirebaseAnalyticsService {
   Future<void> logLogin(String loginMethod) async {
     try {
       // await _analytics.logLogin(loginMethod: loginMethod);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: User logged in via $loginMethod');
@@ -288,7 +289,7 @@ class FirebaseAnalyticsService {
   Future<void> logSignUp(String signUpMethod) async {
     try {
       // await _analytics.logSignUp(signUpMethod: signUpMethod);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 100));
       print('Analytics: User signed up via $signUpMethod');
@@ -301,7 +302,7 @@ class FirebaseAnalyticsService {
   Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
     try {
       // await _analytics.setAnalyticsCollectionEnabled(enabled);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 50));
       print('Analytics: Collection ${enabled ? 'enabled' : 'disabled'}');

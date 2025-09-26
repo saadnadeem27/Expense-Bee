@@ -10,21 +10,22 @@ class FirebaseAuthService {
 
   // Current user stream
   // Stream<User?> get authStateChanges => _auth.authStateChanges();
-  
+
   // Get current user
   // User? get currentUser => _auth.currentUser;
 
   /// Sign in with email and password
-  Future<AuthResult> signInWithEmailPassword(String email, String password) async {
+  Future<AuthResult> signInWithEmailPassword(
+      String email, String password) async {
     try {
       // final credential = await _auth.signInWithEmailAndPassword(
       //   email: email,
       //   password: password,
       // );
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 1));
-      
+
       return AuthResult.success(
         user: UserModel(
           id: 'user_123',
@@ -40,7 +41,7 @@ class FirebaseAuthService {
 
   /// Create account with email and password
   Future<AuthResult> createAccountWithEmailPassword(
-    String email, 
+    String email,
     String password,
     String name,
   ) async {
@@ -49,12 +50,12 @@ class FirebaseAuthService {
       //   email: email,
       //   password: password,
       // );
-      
+
       // await credential.user?.updateDisplayName(name);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 1));
-      
+
       return AuthResult.success(
         user: UserModel(
           id: 'user_${DateTime.now().millisecondsSinceEpoch}',
@@ -72,7 +73,7 @@ class FirebaseAuthService {
   Future<void> signOut() async {
     try {
       // await _auth.signOut();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
     } catch (e) {
@@ -84,7 +85,7 @@ class FirebaseAuthService {
   Future<bool> sendPasswordResetEmail(String email) async {
     try {
       // await _auth.sendPasswordResetEmail(email: email);
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 1));
       return true;
@@ -98,14 +99,14 @@ class FirebaseAuthService {
     try {
       // final user = _auth.currentUser;
       // if (user == null) return false;
-      
+
       // if (name != null) {
       //   await user.updateDisplayName(name);
       // }
       // if (photoURL != null) {
       //   await user.updatePhotoURL(photoURL);
       // }
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(milliseconds: 500));
       return true;
@@ -119,9 +120,9 @@ class FirebaseAuthService {
     try {
       // final user = _auth.currentUser;
       // if (user == null) return false;
-      
+
       // await user.delete();
-      
+
       // Placeholder implementation
       await Future.delayed(const Duration(seconds: 1));
       return true;
@@ -184,8 +185,8 @@ class UserModel {
       name: json['name'],
       photoURL: json['photoURL'],
       createdAt: DateTime.parse(json['createdAt']),
-      lastLoginAt: json['lastLoginAt'] != null 
-          ? DateTime.parse(json['lastLoginAt']) 
+      lastLoginAt: json['lastLoginAt'] != null
+          ? DateTime.parse(json['lastLoginAt'])
           : null,
     );
   }

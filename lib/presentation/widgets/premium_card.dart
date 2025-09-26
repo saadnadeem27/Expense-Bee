@@ -27,13 +27,14 @@ class PremiumCard extends StatelessWidget {
         gradient: gradient,
         color: gradient == null ? (color ?? Colors.white) : null,
         borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: boxShadow ?? [
-          BoxShadow(
-            color: AppTheme.darkBlue.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        boxShadow: boxShadow ??
+            [
+              BoxShadow(
+                color: AppTheme.darkBlue.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
       ),
       child: child,
     );

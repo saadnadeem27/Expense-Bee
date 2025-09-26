@@ -7,40 +7,40 @@ part 'transaction.g.dart';
 class Transaction extends Equatable {
   @HiveField(0)
   final String id;
-  
+
   @HiveField(1)
   final String title;
-  
+
   @HiveField(2)
   final String description;
-  
+
   @HiveField(3)
   final double amount;
-  
+
   @HiveField(4)
   final String category;
-  
+
   @HiveField(5)
   final TransactionType type;
-  
+
   @HiveField(6)
   final DateTime date;
-  
+
   @HiveField(7)
   final String accountId;
-  
+
   @HiveField(8)
   final String? imageUrl;
-  
+
   @HiveField(9)
   final bool isRecurring;
-  
+
   @HiveField(10)
   final RecurringPeriod? recurringPeriod;
-  
+
   @HiveField(11)
   final DateTime? recurringEndDate;
-  
+
   @HiveField(12)
   final Map<String, dynamic>? metadata;
 

@@ -7,34 +7,34 @@ part 'account.g.dart';
 class Account extends Equatable {
   @HiveField(0)
   final String id;
-  
+
   @HiveField(1)
   final String name;
-  
+
   @HiveField(2)
   final AccountType type;
-  
+
   @HiveField(3)
   final double balance;
-  
+
   @HiveField(4)
   final String currency;
-  
+
   @HiveField(5)
   final String? description;
-  
+
   @HiveField(6)
   final String? iconData;
-  
+
   @HiveField(7)
   final int color;
-  
+
   @HiveField(8)
   final bool isActive;
-  
+
   @HiveField(9)
   final DateTime createdAt;
-  
+
   @HiveField(10)
   final DateTime updatedAt;
 

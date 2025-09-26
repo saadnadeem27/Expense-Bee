@@ -7,40 +7,40 @@ part 'budget.g.dart';
 class Budget extends Equatable {
   @HiveField(0)
   final String id;
-  
+
   @HiveField(1)
   final String name;
-  
+
   @HiveField(2)
   final String category;
-  
+
   @HiveField(3)
   final double amount;
-  
+
   @HiveField(4)
   final double spent;
-  
+
   @HiveField(5)
   final BudgetPeriod period;
-  
+
   @HiveField(6)
   final DateTime startDate;
-  
+
   @HiveField(7)
   final DateTime endDate;
-  
+
   @HiveField(8)
   final bool isActive;
-  
+
   @HiveField(9)
   final int color;
-  
+
   @HiveField(10)
   final String? description;
-  
+
   @HiveField(11)
   final bool alertEnabled;
-  
+
   @HiveField(12)
   final double alertPercentage;
 

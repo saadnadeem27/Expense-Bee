@@ -8,7 +8,8 @@ import 'firebase_messaging_service.dart';
 /// Manages dependency injection and service initialization for Firebase services
 class FirebaseServiceLocator {
   static FirebaseServiceLocator? _instance;
-  static FirebaseServiceLocator get instance => _instance ??= FirebaseServiceLocator._();
+  static FirebaseServiceLocator get instance =>
+      _instance ??= FirebaseServiceLocator._();
 
   FirebaseServiceLocator._();
 
@@ -49,7 +50,8 @@ class FirebaseServiceLocator {
   /// Get Authentication Service
   FirebaseAuthService get auth {
     if (_authService == null) {
-      throw Exception('Firebase Auth Service not initialized. Call initialize() first.');
+      throw Exception(
+          'Firebase Auth Service not initialized. Call initialize() first.');
     }
     return _authService!;
   }
@@ -57,7 +59,8 @@ class FirebaseServiceLocator {
   /// Get Firestore Service
   FirestoreService get firestore {
     if (_firestoreService == null) {
-      throw Exception('Firestore Service not initialized. Call initialize() first.');
+      throw Exception(
+          'Firestore Service not initialized. Call initialize() first.');
     }
     return _firestoreService!;
   }
@@ -65,7 +68,8 @@ class FirebaseServiceLocator {
   /// Get Storage Service
   FirebaseStorageService get storage {
     if (_storageService == null) {
-      throw Exception('Firebase Storage Service not initialized. Call initialize() first.');
+      throw Exception(
+          'Firebase Storage Service not initialized. Call initialize() first.');
     }
     return _storageService!;
   }
@@ -73,7 +77,8 @@ class FirebaseServiceLocator {
   /// Get Analytics Service
   FirebaseAnalyticsService get analytics {
     if (_analyticsService == null) {
-      throw Exception('Firebase Analytics Service not initialized. Call initialize() first.');
+      throw Exception(
+          'Firebase Analytics Service not initialized. Call initialize() first.');
     }
     return _analyticsService!;
   }
@@ -81,7 +86,8 @@ class FirebaseServiceLocator {
   /// Get Messaging Service
   FirebaseMessagingService get messaging {
     if (_messagingService == null) {
-      throw Exception('Firebase Messaging Service not initialized. Call initialize() first.');
+      throw Exception(
+          'Firebase Messaging Service not initialized. Call initialize() first.');
     }
     return _messagingService!;
   }
@@ -99,10 +105,10 @@ class FirebaseServiceLocator {
   /// Check if services are initialized
   bool get isInitialized {
     return _authService != null &&
-           _firestoreService != null &&
-           _storageService != null &&
-           _analyticsService != null &&
-           _messagingService != null;
+        _firestoreService != null &&
+        _storageService != null &&
+        _analyticsService != null &&
+        _messagingService != null;
   }
 
   /// Get service initialization status

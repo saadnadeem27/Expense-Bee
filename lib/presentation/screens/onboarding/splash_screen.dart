@@ -46,11 +46,12 @@ class _SplashScreenState extends State<SplashScreen>
   void _startAnimation() async {
     await _animationController.forward();
     await Future.delayed(const Duration(milliseconds: 1000));
-    
+
     if (mounted) {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const MainScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const MainScreen(),
           transitionDuration: const Duration(milliseconds: 800),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -118,9 +119,9 @@ class _SplashScreenState extends State<SplashScreen>
                             color: Colors.white,
                           ),
                         ),
-                        
+
                         const SizedBox(height: 24),
-                        
+
                         // App Name
                         Text(
                           'Expense Bee',
@@ -129,9 +130,9 @@ class _SplashScreenState extends State<SplashScreen>
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        
+
                         const SizedBox(height: 8),
-                        
+
                         // Tagline
                         Text(
                           'Smart expense tracking with AI insights',
@@ -140,9 +141,9 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        
+
                         const SizedBox(height: 60),
-                        
+
                         // Loading Indicator
                         AnimationLimiter(
                           child: Row(
@@ -154,7 +155,8 @@ class _SplashScreenState extends State<SplashScreen>
                               ),
                               children: List.generate(3, (index) {
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 4),
                                   width: 8,
                                   height: 8,
                                   decoration: BoxDecoration(
