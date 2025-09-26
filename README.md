@@ -7,11 +7,11 @@
 
 > A comprehensive, feature-rich personal finance management application built with Flutter and Firebase. Track expenses, manage budgets, set financial goals, and gain insights into your spending patterns with beautiful, intuitive design.
 
-## 📱 Screenshots & Demo
+<!-- ## 📱 Screenshots & Demo
 
 | Dashboard | Analytics | Budget Management | Profile |
 |-----------|-----------|-------------------|---------|
-| ![Dashboard](assets/screenshots/dashboard.png) | ![Analytics](assets/screenshots/analytics.png) | ![Budget](assets/screenshots/budget.png) | ![Profile](assets/screenshots/profile.png) |
+| ![Dashboard](assets/screenshots/dashboard.png) | ![Analytics](assets/screenshots/analytics.png) | ![Budget](assets/screenshots/budget.png) | ![Profile](assets/screenshots/profile.png) | -->
 
 ## ✨ Key Features
 
